@@ -118,4 +118,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# setting for crispy template for better look of forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# settings for redirect after user login
+LOGIN_REDIRECT_URL = '/'
+
+# setting for redirecting users to prevent accessing restricted urls
+LOGIN_URL = '/login'
