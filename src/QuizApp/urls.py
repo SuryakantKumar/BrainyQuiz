@@ -24,11 +24,14 @@ from .views import (
 
 from quiz.views import categories_page
 
+from users import views as user_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
     path('home/', home),
     path('about/', about),
     path('contact/', contact),
-    path('categories/', categories_page)
+    path('categories/', categories_page),
+    path('register/', user_views.register, name='register')
 ]

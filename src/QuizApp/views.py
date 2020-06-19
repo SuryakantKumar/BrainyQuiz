@@ -4,17 +4,17 @@ from django.shortcuts import render
 
 def home(request):
     template = 'home.html'
-    context = {'title': 'Home Page'}
+    context = {'title': 'QuizApp - Home'}
     return render(request, template, context)
 
 
 def about(request):
     template = 'about.html'
-    context = {'title': 'About Us'}
+    context = {'title': 'QuizApp - About Us'}
     return render(request, template, context)
 
 
 def contact(request):
     template = 'contact.html'
-    context = {'title': 'Contact Us'}
+    context = {'title': 'QuizApp - Contact Us'}
     return render(request, template, context)
