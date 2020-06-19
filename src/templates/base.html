@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% include 'bootstrap.html' %}
+
+    <title>{{ title }}</title>
+</head>
+<body>
+<div>
+    {% include 'navbar.html' %}
+</div>
+
+<div style="min-height: 90vh">
+    {% block content %} {% endblock %}
+</div>
+
+<div>
+    {% include 'footer.html' %}
+</div>
+
+{% include 'js.html' %}
+</body>
+</html>
