@@ -2,9 +2,26 @@
 
 
 {% block content %}
-<center>
-    <h1>
-        Welcome to Quiz App.
-    </h1>
-</center>
+    <div class="col-12 col-md-10 mb-3 mx-auto mt-3">
+        {% if quizzes %}
+            {% for quiz in quizzes %}
+                <div class="card bg-dark text-light mb-1">
+                    <div class="card-body">
+                        <h4 class="card-title text-info">
+                            {{ quiz.title }}
+                        </h4>
+                        <p class="card-text">
+                            {{ quiz.description|linebreaks }}
+                        </p>
+                        <p><small class="text-danger">
+                            Difficulty : {{ quiz.get_difficulty_display }}
+                        </small></p>
+                        <small class="text-success">
+                            Average Score : {{ quiz.average_score }}
+                        </small>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}

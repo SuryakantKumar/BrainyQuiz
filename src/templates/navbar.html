@@ -37,7 +37,20 @@
                 <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
             {% else %}
-                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            Login
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'login' %}">As a User</a>
+                            <a class="dropdown-item" href="/admin">As Admin</a>
+                        </div>
+                    </li>
+                </ul>
                 <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
             {% endif %}
         </div>

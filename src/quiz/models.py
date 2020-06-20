@@ -22,7 +22,7 @@ class Quiz(models.Model):
     title = models.CharField(max_length=40)
     description = models.TextField(max_length=1000, blank=True, null=True)
     average_score = models.IntegerField(default=0, blank=True, null=True)
-    Difficulty = models.CharField(max_length=1, choices=difficulty_choices, default='F')
+    difficulty = models.CharField(max_length=10, choices=difficulty_choices, default='F')
     user_id = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
     category_id = models.ForeignKey(Category, null=False, blank=False, on_delete=models.CASCADE)
 
