@@ -13,6 +13,9 @@
                         <p class="card-text">
                             {{ quiz.description|linebreaks }}
                         </p>
+                        <p><small class="text-primary">
+                            Author : {{ quiz.author.first_name }} {{ quiz.author.last_name }}
+                        </small></p>
                         <p><small class="text-danger">
                             Difficulty : {{ quiz.get_difficulty_display }}
                         </small></p>
