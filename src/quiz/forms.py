@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Quiz
+from .models import Quiz, Question, Option
 
 
 class CreateQuizModelForm(forms.ModelForm):
@@ -14,3 +14,15 @@ class CreateQuizModelForm(forms.ModelForm):
         if qs.exists():
             raise forms.ValidationError("This title is already exists. Please Choose a different one.")
         return title
+
+
+class AddQuestionModelForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['quiz', 'title', 'answer']
+
+
+class AddOptionModelForm(forms.ModelForm):
+    class Meta:
+        model = Option
+        fields = ['question', 'title', 'correctness']

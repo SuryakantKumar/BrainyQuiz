@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.urls import reverse
 
 User = settings.AUTH_USER_MODEL
 
@@ -31,6 +32,9 @@ class Quiz(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('quiz-detail', kwargs={'pk': self.pk})
+
 
 class Question(models.Model):
     title = models.CharField(max_length=400, blank=False, null=False)
@@ -39,6 +43,9 @@ class Question(models.Model):
 
     def __str__(self):
         return '%s' % self.title
+
+    def get_absolute_url(self):
+        return reverse('question-detail', kwargs={'pk': self.pk})
 
 
 class Option(models.Model):

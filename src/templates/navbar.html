@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/categories">Categories<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/category">Categories<span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item dropdown">
@@ -43,7 +43,7 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="quiz/create/">Add Quiz</a>
+                            <a class="dropdown-item" href="{% url 'create-quiz' %}">Add Quiz</a>
                             <a class="dropdown-item" href="#">Add Question</a>
                         </div>
                     </li>
