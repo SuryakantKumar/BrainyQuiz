@@ -6,7 +6,7 @@ from .models import Quiz, Question, Option
 class CreateQuizModelForm(forms.ModelForm):
     class Meta:
         model = Quiz
-        fields = ['title', 'description', 'difficulty', 'category']
+        fields = ['category', 'title', 'description', 'difficulty']
 
     def clean_title(self, *args, **kwargs):
         title = self.cleaned_data.get('title')
@@ -22,7 +22,7 @@ class CreateQuestionModelForm(forms.ModelForm):
         fields = ['title', 'answer']
 
 
-class AddOptionModelForm(forms.ModelForm):
+class CreateOptionModelForm(forms.ModelForm):
     class Meta:
         model = Option
-        fields = ['question', 'title', 'correctness']
+        fields = ['title', 'correctness']

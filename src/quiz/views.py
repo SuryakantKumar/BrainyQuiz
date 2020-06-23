@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
 from .models import Quiz, Category, Question, Option
-from .forms import CreateQuizModelForm, CreateQuestionModelForm
+from .forms import CreateQuizModelForm, CreateQuestionModelForm, CreateOptionModelForm
 
 
 def category_list_view(request):
@@ -41,7 +41,7 @@ def question_list_view(request, quiz_id):
     question_objects = Question.objects.filter(quiz__id=quiz_id)
     option_objects = Option.objects.filter(question__quiz__id=quiz_id)
 
-    template = 'quiz/question_list.html'
+    template = 'quiz/quiz_play.html'
     context = {'title': 'QuizApp - Home',
                "question_list": question_objects,
                "related_quiz": quiz_object,
@@ -78,5 +78,44 @@ def question_create_view(request, quiz_id):
 
     template_name = 'quiz/question_create.html'
     context = {"title": "Create New Quiz",
-               "form": form}
+               "form": form,
+               "related_quiz": quiz}
+    return render(request, template_name, context)
+
+
+def question_features_ext_view(request, quiz_id):
+    quiz_object = get_object_or_404(Quiz, pk=quiz_id)
+    question_objects = Question.objects.filter(quiz__id=quiz_id)
+    option_objects = Option.objects.filter(question__quiz__id=quiz_id)
+
+    template = 'quiz/question_feature_ext.html'
+    context = {'title': 'QuizApp - Home',
+               "question_list": question_objects,
+               "related_quiz": quiz_object,
+               "option_list": option_objects}
+    return render(request, template, context)
+
+
+def option_create_view(request, quiz_id, question_id):
+    quiz_object = get_object_or_404(Quiz, pk=quiz_id)
+    question_object = get_object_or_404(Question, pk=question_id)
+    option_objects = Option.objects.filter(question__id=question_id)
+
+    form = CreateOptionModelForm(request.POST or None)
+    form.instance.question = question_object
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, f"Your Options has been added.")
+        if option_objects.count() < 4:
+            form = CreateOptionModelForm()
+        else:
+            return redirect('/quiz/')
+
+    template_name = 'quiz/option_create.html'
+    context = {"title": "Create New Quiz",
+               "form": form,
+               "question": question_object,
+               "related_quiz": quiz_object,
+               "option_list": option_objects}
     return render(request, template_name, context)

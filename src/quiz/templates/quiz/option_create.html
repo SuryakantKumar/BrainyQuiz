@@ -3,12 +3,11 @@
 
 
 {% block title %}
-    <title>Create Question</title>
+    <title>Quiz - Add Options</title>
 {% endblock %}
 
 
 {% block content %}
-
     <div class="col-12 col-md-10 mb-3 mx-auto mt-3">
         <div class="card border-success mb-3">
             <div class="card-body text-success">
@@ -29,20 +28,44 @@
                 </small>
             </div>
         </div>
+        <div>
+            <div class="card bg-dark text-light mb-1">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <h4 class="card-title text-info">
+                            <h3 class="card-text mb-4 text-success">
+                                {{ question.title }}
+                            </h3>
+                            {% for option in option_list %}
+                                {% if question.id == option.question.id %}
+                                    <div>
+                                        <ul>
+                                            <li> <span
+                                                    class="ml-2">{{ option }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div class="col-12 col-md-10 mb-3 mx-auto mt-3">
         <form method="POST">
             {% csrf_token %}
-
             <fieldset class="form-group ">
-                <legend class="border-bottom mb-4 bg-dark text-light text-center">Create New Question</legend>
+                <legend class="border-bottom mb-4 bg-dark text-light text-center">Add Option
+                </legend>
                 {{ form|crispy }}
             </fieldset>
 
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Add Question</button>
+                <button class="btn btn-outline-info" type="submit">Add Option</button>
             </div>
         </form>
     </div>
-
 {% endblock %}

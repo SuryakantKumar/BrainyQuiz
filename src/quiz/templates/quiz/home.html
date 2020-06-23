@@ -30,9 +30,14 @@
                     </div>
                     <div>
                         {% if user == quiz.author %}
-                            <h4 class="card-title text-info">
-                                <a href="{% url 'question-create' quiz.id %}">Create Question</a>
-                            </h4>
+                            <div class="row">
+                                <h4 class="card-title text-info col-4 col-sm-1">
+                                    <a href="{% url 'question-feature-ext' quiz.id %}">View</a>
+                                </h4>
+                                <h4 class="card-title text-info col-4 col-sm-2">
+                                    <a href="{% url 'question-create' quiz.id %}">Add Question</a>
+                                </h4>
+                            </div>
                         {% else %}
                             <h4 class="card-title text-info">
                                 <a href="{% url 'question-list' quiz.id %}">Play Quiz</a>
