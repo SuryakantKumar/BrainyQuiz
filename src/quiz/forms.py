@@ -16,10 +16,10 @@ class CreateQuizModelForm(forms.ModelForm):
         return title
 
 
-class AddQuestionModelForm(forms.ModelForm):
+class CreateQuestionModelForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['quiz', 'title', 'answer']
+        fields = ['title', 'answer']
 
 
 class AddOptionModelForm(forms.ModelForm):

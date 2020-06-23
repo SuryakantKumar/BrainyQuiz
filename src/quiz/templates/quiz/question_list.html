@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    <title>QuizApp - Questions</title>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-12 col-md-10 mb-3 mx-auto mt-3">
+        <div class="card border-success mb-3">
+            <div class="card-body text-success">
+                <h4 class="card-title text-info">
+                    Quiz : {{ related_quiz.title }}
+                </h4>
+                <p class="card-text">
+                    {{ related_quiz.description|linebreaks }}
+                </p>
+                <p><small class="text-primary">
+                    Author : {{ related_quiz.author.first_name }} {{ quiz.author.last_name }}
+                </small></p>
+                <p><small class="text-danger">
+                    Difficulty : {{ related_quiz.get_difficulty_display }}
+                </small></p>
+                <small class="text-success">
+                    Average Score : {{ related_quiz.average_score }}
+                </small>
+            </div>
+        </div>
+        <form method="post" action="/">
+        {% csrf_token %}
+            {% for question in question_list %}
+                <div class="card bg-dark text-light mb-1">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <h4 class="card-title text-info">
+                                <h3 class="card-text mb-4 text-success">
+                                    {{ question.title }}
+                                </h3>
+                                {% for option in option_list %}
+                                    {% if question.id == option.question.id %}
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name={{ question.id }}> <span
+                                                    class="ml-2">{{ option }}</span>
+                                            </label>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Submit Quiz</button>
+        </form>
+    </div>
+{% endblock %}

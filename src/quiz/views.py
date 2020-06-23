@@ -1,59 +1,82 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView
+from django.shortcuts import get_object_or_404
 
-from .models import Quiz, Category
-from .forms import CreateQuizModelForm, AddQuestionModelForm, AddOptionModelForm
-
-
-class QuizListView(ListView):
-    model = Quiz
-    template_name = 'quiz/home.html'
-    context_object_name = 'quizzes'
-    ordering = ['-date_posted']
+from .models import Quiz, Category, Question, Option
+from .forms import CreateQuizModelForm, CreateQuestionModelForm
 
 
-class QuizDetailView(DetailView):
-    model = Quiz
-    template_name = 'quiz/quiz_detail.html'
-    context_object_name = 'quiz'
+def category_list_view(request):
+    """ Function to retrieve all the Categories """
+    objects = Category.objects.all()
+
+    template = 'quiz/category_list.html'
+    context = {"title": 'QuizApp - Categories',
+               "categories": objects}
+    return render(request, template, context)
 
 
-class CategoryListView(ListView):
-    model = Category
-    template_name = 'quiz/category_list.html'
-    context_object_name = 'categories'
-    ordering = ['title']
+def category_detail_view(request, category_id):
+    objects = Quiz.objects.filter(category__id=category_id)
 
-
-class CategoryDetailView(DetailView):
-    model = Category
     template_name = 'quiz/category_detail.html'
-    context_object_name = 'category'
+    context = {"title": "Create New Quiz",
+               "related_quiz": objects}
+    return render(request, template_name, context)
 
 
-# @login_required
-# def create_quiz(request):
-#     form = CreateQuizModelForm(request.POST or None)
-#     form.instance.author = request.user
-#     if form.is_valid():
-#         form.save()
-#         messages.success(request, f"Your Quiz has been added.")
-#         form = CreateQuizModelForm()
-#
-#     template_name = 'quiz/create_quiz.html'
-#     context = {"title": "Create New Quiz",
-#                "form": form}
-#     return render(request, template_name, context)
+def quiz_list_view(request):
+    obj = Quiz.objects.all()
+
+    template = 'quiz/home.html'
+    context = {'title': 'QuizApp - Home',
+               "quiz_list": obj}
+    return render(request, template, context)
 
 
-class QuizCreateView(LoginRequiredMixin, CreateView):
-    model = Quiz
-    fields = ['title', 'description', 'difficulty', 'category']
-    template_name = 'quiz/create_quiz.html'
+@login_required
+def question_list_view(request, quiz_id):
+    quiz_object = get_object_or_404(Quiz, pk=quiz_id)
+    question_objects = Question.objects.filter(quiz__id=quiz_id)
+    option_objects = Option.objects.filter(question__quiz__id=quiz_id)
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    template = 'quiz/question_list.html'
+    context = {'title': 'QuizApp - Home',
+               "question_list": question_objects,
+               "related_quiz": quiz_object,
+               "option_list": option_objects}
+    return render(request, template, context)
+
+
+@login_required
+def quiz_create_view(request):
+    form = CreateQuizModelForm(request.POST or None)
+    form.instance.author = request.user
+    if form.is_valid():
+        form.save()
+        messages.success(request, f"Your Quiz has been added.")
+        form = CreateQuizModelForm()
+
+    template_name = 'quiz/quiz_create.html'
+    context = {"title": "Create New Quiz",
+               "form": form}
+    return render(request, template_name, context)
+
+
+@login_required
+def question_create_view(request, quiz_id):
+    quiz = get_object_or_404(Quiz, pk=quiz_id)
+    if request.user != quiz.author:
+        return redirect('/')
+    form = CreateQuestionModelForm(request.POST or None)
+    form.instance.quiz = quiz
+    if form.is_valid():
+        form.save()
+        messages.success(request, f"Your Quiz has been added.")
+        form = CreateQuestionModelForm()
+
+    template_name = 'quiz/question_create.html'
+    context = {"title": "Create New Quiz",
+               "form": form}
+    return render(request, template_name, context)

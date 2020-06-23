@@ -34,38 +34,11 @@
 
         <div class="navbar-nav ml-4 mr-4">
             {% if user.is_authenticated %}
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                            Create
-                        </a>
-
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'create-quiz' %}">Add Quiz</a>
-                            <a class="dropdown-item" href="#">Add Question</a>
-                        </div>
-                    </li>
-                </ul>
-
+                <a class="nav-item nav-link" href="{% url 'quiz-create' %}">Create Quiz</a>
                 <a class="nav-item nav-link" href="{% url 'profile' %}">{{ user.first_name }}</a>
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
             {% else %}
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                            Login
-                        </a>
-
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'login' %}">As a User</a>
-                            <a class="dropdown-item" href="/admin">As Admin</a>
-                        </div>
-                    </li>
-                </ul>
+                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                 <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
             {% endif %}
         </div>

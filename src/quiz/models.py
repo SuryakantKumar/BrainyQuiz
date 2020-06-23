@@ -13,6 +13,9 @@ class Category(models.Model):
     def __str__(self):
         return '%s' % self.title
 
+    class Meta:
+        ordering = ['title']
+
 
 class Quiz(models.Model):
     difficulty_choices = [
@@ -32,8 +35,8 @@ class Quiz(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse('quiz-detail', kwargs={'pk': self.pk})
+    class Meta:
+        ordering = ['-date_posted']
 
 
 class Question(models.Model):
@@ -42,10 +45,10 @@ class Question(models.Model):
     quiz = models.ForeignKey(Quiz, null=False, blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '%s' % self.title
+        return self.title
 
-    def get_absolute_url(self):
-        return reverse('question-detail', kwargs={'pk': self.pk})
+    class Meta:
+        ordering = ['title']
 
 
 class Option(models.Model):
