@@ -113,18 +113,17 @@ def quiz_play_view(request, quiz_id):
         for question in quiz.question_set.all():
             player = request.user
 
-            correct_option = None       # correct option of the question
+            correct_option = None      # correct option of the question
             for option in question.option_set.all():
                 if option.correctness is True:
                     correct_option = option
 
-            option_triggered = False        # whether option is triggered or not
+            option_triggered = False       # whether option is triggered or not
             option_triggered_value = None
-            for option in question.option_set.all():
-                name_combination = str(question.id) + str(option.id)
-                if request.POST.get(name_combination) is not None:
-                    option_triggered = True
-                    option_triggered_value = request.POST.get(name_combination)
+            name_combination = str(quiz.id) + str(question.id)
+            if request.POST.get(name_combination) is not None:
+                option_triggered = True
+                option_triggered_value = request.POST.get(name_combination)
 
             per_question_score = 0
             if (option_triggered is True) and (correct_option.title == option_triggered_value):

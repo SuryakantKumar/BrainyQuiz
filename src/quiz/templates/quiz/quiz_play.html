@@ -40,8 +40,8 @@
                                     {{ question.title }}
                                 </h3>
                                 {% for option in question.option_set.all %}
-                                    <input type="radio" name="{{ question.id }}{{ option.id }}" value="{{ option }}"
-                                           class="mr-1">
+                                    <input type="radio" name="{{ related_quiz.id }}{{ question.id }}"
+                                           value="{{ option }}" class="mr-1"/>
                                     <label>{{ option.title }}</label><br>
                                 {% endfor %}
                             </h4>
