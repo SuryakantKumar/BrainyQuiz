@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Quiz, Question, Option
+from .models import Quiz, Question, Option, QuestionWiseQuizScore
 
 
 class CreateQuizModelForm(forms.ModelForm):

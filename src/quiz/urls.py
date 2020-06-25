@@ -9,7 +9,7 @@ urlpatterns = [
     path('quiz/', views.quiz_list_view, name='quiz-list'),
     path('quiz/create/', views.quiz_create_view, name='quiz-create'),
     path('quiz/<int:quiz_id>/view/', views.question_features_ext_view, name='question-feature-ext'),
-    path('quiz/<int:quiz_id>/play/', views.question_list_view, name='question-list'),
+    path('quiz/<int:quiz_id>/play/', views.quiz_play_view, name='quiz-play'),
     path('quiz/<int:quiz_id>/question/create/', views.question_create_view, name='question-create'),
     path('quiz/<int:quiz_id>/question/<int:question_id>/option/create/', views.option_create_view, name='option-create')
 ]

@@ -27,9 +27,11 @@
                 </small>
             </div>
         </div>
-        <form method="post" action="/">
-        {% csrf_token %}
-            {% for question in question_list %}
+    </div>
+    <div class="col-12 col-md-10 mb-3 mx-auto mt-3">
+        <form method="post" action=".">
+            {% csrf_token %}
+            {% for question in related_quiz.question_set.all %}
                 <div class="card bg-dark text-light mb-1">
                     <div class="card-body">
                         <div class="mb-2">
@@ -37,15 +39,10 @@
                                 <h3 class="card-text mb-4 text-success">
                                     {{ question.title }}
                                 </h3>
-                                {% for option in option_list %}
-                                    {% if question.id == option.question.id %}
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name={{ question.id }}> <span
-                                                    class="ml-2">{{ option }}</span>
-                                            </label>
-                                        </div>
-                                    {% endif %}
+                                {% for option in question.option_set.all %}
+                                    <input type="radio" name="{{ question.id }}{{ option.id }}" value="{{ option }}"
+                                           class="mr-1">
+                                    <label>{{ option.title }}</label><br>
                                 {% endfor %}
                             </h4>
                         </div>
