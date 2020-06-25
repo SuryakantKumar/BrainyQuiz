@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-    <a class="navbar-brand text-success " href="/"><h4>QuizApp</h4></a>
+    <a class="navbar-brand text-success mr-4" href="/"><h2>QuizApp</h2></a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,38 +9,35 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/category">Categories<span class="sr-only">(current)</span></a>
+                <a class="nav-link mr-2 pb-0 text-warning" href="{% url 'category-list' %}"><h5>Category</h5></a>
             </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Select Category
-                </a>
-
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Science & Technology</a>
-                    <a class="dropdown-item" href="#">History</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Sports</a>
-                </div>
+            <li class="nav-item active">
+                <a class="nav-link mr-2 pb-0 text-info" href="{% url 'scoreboard' %}"><h5>ScoreBoard</h5></a>
             </li>
+
         </ul>
 
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
 
-        <div class="navbar-nav ml-4 mr-4">
+        <div class="navbar-nav mr-4">
             {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="{% url 'quiz-create' %}">Create Quiz</a>
-                <a class="nav-item nav-link" href="{% url 'profile' %}">{{ user.first_name }}</a>
-                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                <a class="nav-item nav-link active text-info pb-0 mr-2" href="{% url 'quiz-create' %}"><h5>Create
+                    Quiz</h5>
+                </a>
+                <a class="nav-item nav-link active text-warning pb-0 mr-2" href="{% url 'profile' %}">
+                    <h5>{{ user.first_name }}</h5></a>
+                <a class="nav-item nav-link active text-danger pb-0 mr-2" href="{% url 'logout' %}"><h5>Logout</h5></a>
             {% else %}
-                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                <a class="nav-item nav-link active text-success pb-0 mr-2" href="{% url 'login' %}"><h5>Login</h5></a>
+                <a class="nav-item nav-link active text-info pb-0 mr-2" href="{% url 'register' %}"><h5>Register</h5>
+                </a>
             {% endif %}
+        </div>
+        <div class="">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Quiz" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </div>
     </div>
 </nav>

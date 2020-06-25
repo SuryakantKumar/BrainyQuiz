@@ -70,10 +70,21 @@ class QuestionWiseQuizScore(models.Model):
         return '%s > %s > %s' % (self.question, self.per_question_score, self.player)
 
 
-class Scoreboard(models.Model):
-    score = models.IntegerField(default=0)
+class QuizWiseScore(models.Model):
+    per_quiz_score = models.IntegerField(default=0)
     quiz = models.ForeignKey(Quiz, null=False, blank=False, on_delete=models.CASCADE)
     player = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '%s > %s > %s' % (self.player, self.quiz, self.score)
+        return '%s > %s > %s' % (self.quiz, self.player, self.per_quiz_score)
+
+
+class Scoreboard(models.Model):
+    score = models.IntegerField(default=0)
+    player = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s > %s' % (self.player, self.score)
+
+    class Meta:
+        ordering = ['-score']

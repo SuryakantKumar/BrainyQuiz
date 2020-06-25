@@ -11,5 +11,7 @@ urlpatterns = [
     path('quiz/<int:quiz_id>/view/', views.question_features_ext_view, name='question-feature-ext'),
     path('quiz/<int:quiz_id>/play/', views.quiz_play_view, name='quiz-play'),
     path('quiz/<int:quiz_id>/question/create/', views.question_create_view, name='question-create'),
-    path('quiz/<int:quiz_id>/question/<int:question_id>/option/create/', views.option_create_view, name='option-create')
+    path('quiz/<int:quiz_id>/question/<int:question_id>/option/create/', views.option_create_view,
+         name='option-create'),
+    path('scoreboard/', views.score_board, name='scoreboard')
 ]

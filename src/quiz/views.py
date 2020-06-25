@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
-from .models import Quiz, Category, Question, Option, QuestionWiseQuizScore
+from .models import Quiz, Category, Question, Option, QuestionWiseQuizScore, QuizWiseScore, Scoreboard
 from .forms import CreateQuizModelForm, CreateQuestionModelForm, CreateOptionModelForm
 
 
@@ -108,17 +108,20 @@ def option_create_view(request, quiz_id, question_id):
 def quiz_play_view(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
 
+    if QuizWiseScore.objects.filter(player=request.user, quiz=quiz_id).count() != 0:
+        messages.success(request, f"You have already played selected quiz. Play other quiz.")
+        return redirect('/')
     if request.method == 'POST':
-
+        per_quiz_score = 0
         for question in quiz.question_set.all():
             player = request.user
 
-            correct_option = None      # correct option of the question
+            correct_option = None  # correct option of the question
             for option in question.option_set.all():
                 if option.correctness is True:
                     correct_option = option
 
-            option_triggered = False       # whether option is triggered or not
+            option_triggered = False  # whether option is triggered or not
             option_triggered_value = None
             name_combination = str(quiz.id) + str(question.id)
             if request.POST.get(name_combination) is not None:
@@ -128,13 +131,33 @@ def quiz_play_view(request, quiz_id):
             per_question_score = 0
             if (option_triggered is True) and (correct_option.title == option_triggered_value):
                 per_question_score = 1
+                per_quiz_score += 1
 
-            q = QuestionWiseQuizScore(quiz_id=quiz, player=player, question=question,
-                                      per_question_score=per_question_score)
-            q.save()
+            question_wise_score = QuestionWiseQuizScore(quiz_id=quiz, player=player, question=question,
+                                                        per_question_score=per_question_score)
+            question_wise_score.save()
+
+        quiz_wise_score = QuizWiseScore(per_quiz_score=per_quiz_score, quiz=quiz, player=request.user)
+        quiz_wise_score.save()
+
+        try:
+            score_board_instance = get_object_or_404(Scoreboard, player=request.user)
+            score_board_instance.score += per_quiz_score
+            score_board_instance.save()
+        except:
+            new_board = Scoreboard(player=request.user, score=per_quiz_score)
+            new_board.save()
 
         return redirect('/')
 
     template = 'quiz/quiz_play.html'
     context = {"related_quiz": quiz}
+    return render(request, template, context)
+
+
+def score_board(request):
+    scoreboard = Scoreboard.objects.all()
+
+    template = "quiz/scoreboard.html"
+    context = {"scoreboard": scoreboard}
     return render(request, template, context)
