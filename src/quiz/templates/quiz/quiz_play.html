@@ -16,15 +16,15 @@
                 <p class="card-text">
                     {{ related_quiz.description|linebreaks }}
                 </p>
-                <p><small class="text-primary">
+                <p><small class="text-primary"><b>
                     Author : {{ related_quiz.author.first_name }} {{ quiz.author.last_name }}
-                </small></p>
-                <p><small class="text-danger">
+                </b></small></p>
+                <p><small class="text-danger"><b>
                     Difficulty : {{ related_quiz.get_difficulty_display }}
-                </small></p>
-                <small class="text-success">
-                    Average Score : {{ related_quiz.average_score }}
-                </small>
+                </b></small></p>
+                {#  <small class="text-success">#}
+                {#  Average Score : {{ related_quiz.average_score }}#}
+                {#  </small>#}
             </div>
         </div>
     </div>

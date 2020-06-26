@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
 
 {% block title %}
-    <title>Quiz - {{ related_quiz }}</title>
+    <title>Quiz - Result</title>
 {% endblock %}
 
 
@@ -12,24 +11,24 @@
         <div class="card border-success mb-3">
             <div class="card-body text-success">
                 <h4 class="card-title text-info">
-                    Quiz : {{ related_quiz.title }}
+                    Result for Quiz : {{ related_quiz.title }}
                 </h4>
                 <p class="card-text">
                     {{ related_quiz.description|linebreaks }}
                 </p>
-                <p><small class="text-primary"><b>
-                    Author : {{ related_quiz.author.first_name }} {{ related_quiz.author.last_name }}
-                </b></small></p>
-                <p><small class="text-danger"><b>
+                <p><small class="text-primary">
+                    Author : {{ related_quiz.author.first_name }} {{ quiz.author.last_name }}
+                </small></p>
+                <p><small class="text-danger">
                     Difficulty : {{ related_quiz.get_difficulty_display }}
-                </b></small></p>
-                {#  <small class="text-success">#}
-                {#  Average Score : {{ related_quiz.average_score }}#}
-                {#  </small>#}
+                </small></p>
+                <small class="text-success"><b>
+                    Your Overall Score : {{ quiz_wise_score.per_quiz_score }}
+                </b></small>
             </div>
         </div>
         <div>
-            {% for question in question_list %}
+            {% for question in related_quiz.question_set.all %}
                 <div class="card bg-dark text-light mb-1">
                     <div class="card-body">
                         <div class="mb-2">
@@ -37,7 +36,7 @@
                                 <h3 class="card-text mb-4 text-success">
                                     {{ question.title }}
                                 </h3>
-                                {% for option in option_list %}
+                                {% for option in question.option_set.all %}
                                     {% if question.id == option.question.id %}
                                         <div>
                                             <input type="radio" class="mr-2" disabled>
@@ -45,13 +44,13 @@
                                         </div>
                                     {% endif %}
                                 {% endfor %}
-
-                                <div>
-                                    <a class="card-text ml-4 text-primary"
-                                       href="{% url 'option-create' related_quiz.id question.id %}">
-                                        <h5>Add Option</h5>
-                                    </a>
-                                </div>
+                                {% for q in question_wise_score %}
+                                    {% if q.question == question %}
+                                        <h5 class="text-warning">Your Answer : {{ q.answer_triggered }}</h5>
+                                        <h5 class="text-warning">Your score : {{ q.per_question_score }}/10</h5>
+                                    {% endif %}
+                                {% endfor %}
+                                <h5 class="text-warning">Correct Answer : {{ question.answer }}</h5>
                             </h4>
                         </div>
                     </div>

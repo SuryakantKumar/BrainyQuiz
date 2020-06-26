@@ -62,12 +62,13 @@ class Option(models.Model):
 
 class QuestionWiseQuizScore(models.Model):
     per_question_score = models.IntegerField(default=0)
+    answer_triggered = models.CharField(null=True, blank=True, max_length=400)
     quiz_id = models.ForeignKey(Quiz, null=False, blank=False, on_delete=models.CASCADE)
     player = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, null=False, blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '%s > %s > %s' % (self.question, self.per_question_score, self.player)
+        return '%s  %s  %s' % (self.question, self.per_question_score, self.player)
 
 
 class QuizWiseScore(models.Model):
@@ -76,7 +77,7 @@ class QuizWiseScore(models.Model):
     player = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '%s > %s > %s' % (self.quiz, self.player, self.per_quiz_score)
+        return '%s  %s  %s' % (self.quiz, self.player, self.per_quiz_score)
 
 
 class Scoreboard(models.Model):

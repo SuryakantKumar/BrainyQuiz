@@ -109,7 +109,7 @@ def quiz_play_view(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
 
     if QuizWiseScore.objects.filter(player=request.user, quiz=quiz_id).count() != 0:
-        messages.success(request, f"You have already played selected quiz. Play other quiz.")
+        messages.success(request, f"You have already played the quiz '{quiz.title}'. Play other quiz.")
         return redirect('/')
     if request.method == 'POST':
         per_quiz_score = 0
@@ -130,11 +130,12 @@ def quiz_play_view(request, quiz_id):
 
             per_question_score = 0
             if (option_triggered is True) and (correct_option.title == option_triggered_value):
-                per_question_score = 1
-                per_quiz_score += 1
+                per_question_score = 10
+                per_quiz_score += 10
 
             question_wise_score = QuestionWiseQuizScore(quiz_id=quiz, player=player, question=question,
-                                                        per_question_score=per_question_score)
+                                                        per_question_score=per_question_score,
+                                                        answer_triggered=option_triggered_value)
             question_wise_score.save()
 
         quiz_wise_score = QuizWiseScore(per_quiz_score=per_quiz_score, quiz=quiz, player=request.user)
@@ -148,7 +149,7 @@ def quiz_play_view(request, quiz_id):
             new_board = Scoreboard(player=request.user, score=per_quiz_score)
             new_board.save()
 
-        return redirect('/')
+        return redirect('quiz-result', quiz_id)
 
     template = 'quiz/quiz_play.html'
     context = {"related_quiz": quiz}
@@ -160,4 +161,21 @@ def score_board(request):
 
     template = "quiz/scoreboard.html"
     context = {"scoreboard": scoreboard}
+    return render(request, template, context)
+
+
+def quiz_result_view(request, quiz_id):
+    quiz = get_object_or_404(Quiz, pk=quiz_id)
+    quiz_wise_score = get_object_or_404(QuizWiseScore, player=request.user, quiz=quiz_id)
+    question_wise_score = QuestionWiseQuizScore.objects.filter(player=request.user, quiz_id=quiz_id)
+
+    for q in question_wise_score:
+        print(q, type(str(q)))
+        print(q.answer_triggered)
+        print(type(q.answer_triggered))
+
+    template = "quiz/quiz_result.html"
+    context = {"related_quiz": quiz,
+               "quiz_wise_score": quiz_wise_score,
+               "question_wise_score": question_wise_score}
     return render(request, template, context)
