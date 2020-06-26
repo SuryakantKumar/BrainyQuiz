@@ -24,7 +24,7 @@ SECRET_KEY = '7&)lh)8zr3=#hkz1-fov-(*inhtvc$-_w8p9a@_a)%txe0uiok'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['brainyquiz.herokuapp.com']
 
 # Application definition
 
@@ -127,3 +127,10 @@ LOGIN_REDIRECT_URL = '/'
 
 # setting for redirecting users to prevent accessing restricted urls
 LOGIN_URL = '/login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
