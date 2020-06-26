@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .forms import UserRegistrationForm
+from quiz.models import Quiz
 
 
 def register(request):
@@ -24,6 +25,9 @@ def register(request):
 
 @login_required
 def profile(request):
+    quiz = Quiz.objects.filter(author=request.user)
+
     template = 'users/profile.html'
-    context = {"title": 'Profile'}
+    context = {"title": 'Profile',
+               "quiz_list": quiz}
     return render(request, template, context)

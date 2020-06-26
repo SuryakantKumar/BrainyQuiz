@@ -118,6 +118,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# directory for storing media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # setting for crispy template for better look of forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
