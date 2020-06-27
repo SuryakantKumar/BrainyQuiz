@@ -19,20 +19,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '7&)lh)8zr3=#hkz1-fov-(*inhtvc$-_w8p9a@_a)%txe0uiok'
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = '7&)lh)8zr3=#hkz1-fov-(*inhtvc$-_w8p9a@_a)%txe0uiok'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['brainyquiz.herokuapp.com']
+ALLOWED_HOSTS = []
 
 # Application definition
 
 INSTALLED_APPS = [
     # Apps Created
-    'quiz.apps.QuizConfig',
-    'users.apps.UsersConfig',
+    'quiz',
+    'users',
     'crispy_forms',
 
     'django.contrib.admin',
@@ -117,7 +116,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 # setting for crispy template for better look of forms
@@ -128,10 +126,3 @@ LOGIN_REDIRECT_URL = '/'
 
 # setting for redirecting users to prevent accessing restricted urls
 LOGIN_URL = '/login'
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
