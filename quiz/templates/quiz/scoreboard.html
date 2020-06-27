@@ -1,36 +1,40 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Scoreboard</title>
+<title>BrainyQuiz - Scoreboard</title>
 {% endblock %}
 
 
 {% block content %}
 
-    <div class="col-8 col-md-6 mb-3 mx-auto mt-4 mb-2">
-        <div class="card border-success bg-light text-success mb-2">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 col-md-8 pb-0"><h5>Player ID</h5></div>
-                    <div class="col-6 col-md-4 pb-0"><h5>Score</h5></div>
-                </div>
-            </div>
-        </div>
-        {% for each_score in scoreboard %}
-            {% if each_score.player == user %}
-                <div class="card bg-success text-light mb-1">
-            {% else %}
-                <div class="card bg-dark text-light mb-1">
-            {% endif %}
+<div class="col-8 col-md-6 mb-3 mx-auto mt-4 mb-2">
+    <div class="card border-success bg-light text-success mb-2">
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-md-8">
-                    {{ each_score.player.first_name }} {{ each_score.player.last_name }}
+                <div class="col-12 col-md-8 pb-0">
+                    <h5>Player ID</h5>
                 </div>
-                <div class="col-6 col-md-4">{{ each_score.score }}</div>
+                <div class="col-6 col-md-4 pb-0">
+                    <h5>Score</h5>
+                </div>
             </div>
         </div>
+    </div>
+    {% for each_score in scoreboard %}
+    {% if each_score.player == user %}
+    <div class="card bg-success text-light mb-1">
+        {% else %}
+        <div class="card bg-dark text-light mb-1">
+            {% endif %}
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        {{ each_score.player.first_name }} {{ each_score.player.last_name }}
+                    </div>
+                    <div class="col-6 col-md-4">{{ each_score.score }}</div>
+                </div>
+            </div>
         </div>
         {% endfor %}
-        </div>
-{% endblock %}
+    </div>
+    {% endblock %}
