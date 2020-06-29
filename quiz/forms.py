@@ -19,7 +19,7 @@ class CreateQuizModelForm(forms.ModelForm):
 class CreateQuestionModelForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['title', 'answer']
+        fields = ['title']
 
 
 class CreateOptionModelForm(forms.ModelForm):

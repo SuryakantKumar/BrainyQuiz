@@ -68,6 +68,7 @@ def question_create_view(request, quiz_id):
     return render(request, template_name, context)
 
 
+@login_required
 def question_features_ext_view(request, quiz_id):
     quiz_object = get_object_or_404(Quiz, pk=quiz_id)
     question_objects = Question.objects.filter(quiz__id=quiz_id)
@@ -80,6 +81,7 @@ def question_features_ext_view(request, quiz_id):
     return render(request, template, context)
 
 
+@login_required
 def option_create_view(request, quiz_id, question_id):
     quiz_object = get_object_or_404(Quiz, pk=quiz_id)
     question_object = get_object_or_404(Question, pk=question_id)
@@ -111,6 +113,7 @@ def quiz_play_view(request, quiz_id):
     if QuizWiseScore.objects.filter(player=request.user, quiz=quiz_id).count() != 0:
         messages.success(request, f"You have already played the quiz '{quiz.title}'. Play other quiz.")
         return redirect('/')
+
     if request.method == 'POST':
         per_quiz_score = 0
         for question in quiz.question_set.all():
@@ -156,6 +159,7 @@ def quiz_play_view(request, quiz_id):
     return render(request, template, context)
 
 
+@login_required
 def score_board(request):
     scoreboard = Scoreboard.objects.all()
 

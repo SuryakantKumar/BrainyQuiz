@@ -41,7 +41,6 @@ class Quiz(models.Model):
 
 class Question(models.Model):
     title = models.CharField(max_length=400, blank=False, null=False)
-    answer = models.CharField(max_length=400, blank=False, null=False)
     quiz = models.ForeignKey(Quiz, null=False, blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
