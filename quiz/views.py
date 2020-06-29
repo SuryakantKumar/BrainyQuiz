@@ -2,11 +2,40 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.db.models import Prefetch
 
 from .models import Quiz, Category, Question, Option, QuestionWiseQuizScore, QuizWiseScore, Scoreboard
 from .forms import CreateQuizModelForm, CreateQuestionModelForm, CreateOptionModelForm
 
+from django.db import connection, reset_queries
+import time
+import functools
 
+
+def query_debugger(func):
+    """Function for debugging the Number of queries and time taken by function"""
+
+    @functools.wraps(func)
+    def inner_func(*args, **kwargs):
+        reset_queries()
+
+        start_queries = len(connection.queries)
+
+        start = time.perf_counter()
+        result = func(*args, **kwargs)
+        end = time.perf_counter()
+
+        end_queries = len(connection.queries)
+
+        print(f"Function : {func.__name__}")
+        print(f"Number of Queries : {end_queries - start_queries}")
+        print(f"Finished in : {(end - start):.2f}s")
+        return result
+
+    return inner_func
+
+
+@query_debugger
 def category_list_view(request):
     """ Function to retrieve all the Categories """
     objects = Category.objects.all()
@@ -17,6 +46,7 @@ def category_list_view(request):
     return render(request, template, context)
 
 
+@query_debugger
 def category_detail_view(request, category_id):
     objects = Quiz.objects.filter(category__id=category_id)
 
@@ -25,6 +55,7 @@ def category_detail_view(request, category_id):
     return render(request, template_name, context)
 
 
+@query_debugger
 def quiz_list_view(request):
     obj = Quiz.objects.all()
 
@@ -34,6 +65,7 @@ def quiz_list_view(request):
     return render(request, template, context)
 
 
+@query_debugger
 @login_required
 def quiz_create_view(request):
     form = CreateQuizModelForm(request.POST or None)
@@ -49,6 +81,7 @@ def quiz_create_view(request):
     return render(request, template_name, context)
 
 
+@query_debugger
 @login_required
 def question_create_view(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
@@ -68,6 +101,7 @@ def question_create_view(request, quiz_id):
     return render(request, template_name, context)
 
 
+@query_debugger
 @login_required
 def question_features_ext_view(request, quiz_id):
     quiz_object = get_object_or_404(Quiz, pk=quiz_id)
@@ -81,6 +115,7 @@ def question_features_ext_view(request, quiz_id):
     return render(request, template, context)
 
 
+@query_debugger
 @login_required
 def option_create_view(request, quiz_id, question_id):
     quiz_object = get_object_or_404(Quiz, pk=quiz_id)
@@ -106,6 +141,7 @@ def option_create_view(request, quiz_id, question_id):
     return render(request, template_name, context)
 
 
+@query_debugger
 @login_required
 def quiz_play_view(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
@@ -159,6 +195,7 @@ def quiz_play_view(request, quiz_id):
     return render(request, template, context)
 
 
+@query_debugger
 @login_required
 def score_board(request):
     scoreboard = Scoreboard.objects.all()
@@ -168,6 +205,7 @@ def score_board(request):
     return render(request, template, context)
 
 
+@query_debugger
 def quiz_result_view(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     quiz_wise_score = get_object_or_404(QuizWiseScore, player=request.user, quiz=quiz_id)
