@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-from django.urls import reverse
 
 User = settings.AUTH_USER_MODEL
 
@@ -84,7 +83,7 @@ class Scoreboard(models.Model):
     player = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '%s > %s' % (self.player, self.score)
+        return '%s %s' % (self.player, self.score)
 
     class Meta:
         ordering = ['-score']

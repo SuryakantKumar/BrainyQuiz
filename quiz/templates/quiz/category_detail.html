@@ -19,14 +19,11 @@
                     {{ quiz.description|linebreaks }}
                 </p>
                 <p><small class="text-primary"><b>
-                            Author : {{ quiz.author.first_name }} {{ quiz.author.last_name }}
-                        </b></small></p>
+                    Author : {{ quiz.author.first_name }} {{ quiz.author.last_name }}
+                </b></small></p>
                 <p><small class="text-danger"><b>
-                            Difficulty : {{ quiz.get_difficulty_display }}
-                        </b></small></p>
-                {# <small class="text-success">#}
-                {# Average Score : {{ quiz.average_score }}#}
-                {# </small>#}
+                    Difficulty : {{ quiz.get_difficulty_display }}
+                </b></small></p>
             </div>
             <div>
                 {% if user == quiz.author %}

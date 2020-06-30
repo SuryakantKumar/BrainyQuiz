@@ -36,7 +36,7 @@
                         <h3 class="card-text mb-4 text-success">
                             {{ question.title }}
                         </h3>
-                        {% for option in question.option_set.all %}
+                        {% for option in options %}
                         {% if question.id == option.question.id %}
                         <div>
                             <input type="radio" class="mr-2" disabled>

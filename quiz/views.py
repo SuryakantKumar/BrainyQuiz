@@ -23,7 +23,7 @@ def category_list_view(request):
 def category_detail_view(request, category_id):
     """Function to retrieve all the quizzes related to specific category"""
 
-    objects = Quiz.objects.filter(category__id=category_id)
+    objects = Quiz.objects.filter(category__id=category_id).select_related('author')
 
     template_name = 'quiz/category_detail.html'
     context = {"related_quiz": objects}
@@ -33,7 +33,7 @@ def category_detail_view(request, category_id):
 def quiz_list_view(request):
     """Function to retrieve all the quizzes"""
 
-    obj = Quiz.objects.all()
+    obj = Quiz.objects.prefetch_related('category').select_related('author')
 
     template = 'quiz/home.html'
     context = {'title': 'QuizApp - Home',
@@ -91,8 +91,8 @@ def question_features_ext_view(request, quiz_id):
     """Function to View all the questions and options related to specific quiz"""
 
     quiz_object = get_object_or_404(Quiz, pk=quiz_id)
-    question_objects = Question.objects.filter(quiz__id=quiz_id)
-    option_objects = Option.objects.filter(question__quiz__id=quiz_id)
+    question_objects = Question.objects.filter(quiz__id=quiz_id).select_related('quiz')
+    option_objects = Option.objects.filter(question__quiz__id=quiz_id).select_related('question')
 
     template = 'quiz/question_feature_ext.html'
     context = {"question_list": question_objects,
@@ -107,7 +107,7 @@ def option_create_view(request, quiz_id, question_id):
 
     quiz_object = get_object_or_404(Quiz, pk=quiz_id)
     question_object = get_object_or_404(Question, pk=question_id)
-    option_objects = Option.objects.filter(question__id=question_id)
+    option_objects = Option.objects.filter(question__id=question_id).select_related('question')
 
     if request.user != quiz_object.author:
         messages.success(request, f"You don't have permission to create options for Selected Question.")
@@ -140,6 +140,18 @@ def correct_answer(question):
     return correct_option
 
 
+def user_triggered_option(request, name_combination):
+    """Function to find option triggered by user"""
+
+    option_triggered = False  # whether option is triggered or not
+    option_triggered_value = None  # option triggered value
+    if request.POST.get(name_combination) is not None:
+        option_triggered = True
+        option_triggered_value = request.POST.get(name_combination)
+
+    return option_triggered, option_triggered_value
+
+
 @login_required
 def quiz_play_view(request, quiz_id):
     """Function to play the quiz"""
@@ -148,36 +160,26 @@ def quiz_play_view(request, quiz_id):
     if QuizWiseScore.objects.filter(player=request.user, quiz=quiz_id).count() != 0:
         messages.success(request, f"You have already played the quiz '{quiz.title}'. Play other quiz.")
         return redirect('/')
-
     if request.method == 'POST':
         per_quiz_score = 0
         for question in quiz.question_set.all():
             player = request.user
             correct_option = correct_answer(question)
-
-            option_triggered = False  # whether option is triggered or not
-            option_triggered_value = None  # option triggered value
             name_combination = str(quiz.id) + str(question.id)
-            if request.POST.get(name_combination) is not None:
-                option_triggered = True
-                option_triggered_value = request.POST.get(name_combination)
+            option_triggered, option_triggered_value = user_triggered_option(request, name_combination)
 
             per_question_score = 0
             if (option_triggered is True) and (correct_option.title == option_triggered_value):
                 per_question_score = 10
                 per_quiz_score += 10
-
             question_wise_score = QuestionWiseQuizScore(quiz_id=quiz, player=player, question=question,
                                                         per_question_score=per_question_score,
                                                         answer_triggered=option_triggered_value)
             question_wise_score.save()
-
         quiz_wise_score = QuizWiseScore(per_quiz_score=per_quiz_score, quiz=quiz, player=request.user)
         quiz_wise_score.save()
-
         scoreboard_update(request, per_quiz_score)
         return redirect('quiz-result', quiz_id)
-
     template = 'quiz/quiz_play.html'
     context = {"related_quiz": quiz}
     return render(request, template, context)
@@ -199,7 +201,7 @@ def scoreboard_update(request, per_quiz_score):
 def score_board(request):
     """Function to show the scoreboard"""
 
-    scoreboard = Scoreboard.objects.all()
+    scoreboard = Scoreboard.objects.select_related('player')
 
     template = "quiz/scoreboard.html"
     context = {"scoreboard": scoreboard}
@@ -211,10 +213,13 @@ def quiz_result_view(request, quiz_id):
 
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     quiz_wise_score = get_object_or_404(QuizWiseScore, player=request.user, quiz=quiz_id)
-    question_wise_score = QuestionWiseQuizScore.objects.filter(player=request.user, quiz_id=quiz_id)
+    question_wise_score = QuestionWiseQuizScore.objects.filter(player=request.user, quiz_id=quiz_id).select_related(
+        'question')
+    options = Option.objects.select_related('question')
 
     template = "quiz/quiz_result.html"
     context = {"related_quiz": quiz,
                "quiz_wise_score": quiz_wise_score,
-               "question_wise_score": question_wise_score}
+               "question_wise_score": question_wise_score,
+               "options": options}
     return render(request, template, context)

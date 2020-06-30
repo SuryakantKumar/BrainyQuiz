@@ -25,7 +25,7 @@ def register(request):
 
 @login_required
 def profile(request):
-    quiz = Quiz.objects.filter(author=request.user)
+    quiz = Quiz.objects.filter(author=request.user).select_related('author')
 
     template = 'users/profile.html'
     context = {"title": 'Profile',
