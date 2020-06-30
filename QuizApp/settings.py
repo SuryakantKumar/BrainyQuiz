@@ -20,7 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = '7&)lh)8zr3=#hkz1-fov-(*inhtvc$-_w8p9a@_a)%txe0uiok'
-SECRET_KEY = "ae9280a5db198a2ca64c61c889836223071fc1d8a33e67f0"
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -33,7 +32,6 @@ ALLOWED_HOSTS = ['127.0.0.1', 'brainyquiz.herokuapp.com']
 
 INSTALLED_APPS = [
     # Apps Created
-    "scout_apm.django",  # should be listed first
     'quiz',
     'users',
     'crispy_forms',
@@ -138,8 +136,3 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
-
-# Scout settings
-SCOUT_MONITOR = True
-SCOUT_KEY = "dESqsAz2VT1Wiez2SZod"
-SCOUT_NAME = "brainyquiz"
