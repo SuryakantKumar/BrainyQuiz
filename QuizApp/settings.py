@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'brainyquiz.herokuapp.com']
 
 INSTALLED_APPS = [
     # Apps Created
+    'debug_toolbar',
     'quiz',
     'users',
     'crispy_forms',
@@ -44,7 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
