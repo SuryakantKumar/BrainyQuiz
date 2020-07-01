@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="col-12 col-md-10 mb-3 mx-auto mt-3">
+        <div class="mb-4 mt-4">
+            <h4 class="text-primary">Your have searched for : </h4>
+        </div>
+
+        {% for quiz in quizzes %}
+            <div class="card bg-dark text-light mb-1">
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h4 class="card-title text-info">
+                            {{ quiz.title }}
+                        </h4>
+                        <p class="card-text">
+                            {{ quiz.description|linebreaks }}
+                        </p>
+                        <p><small class="text-danger"><b>
+                            Date Posted : {{ quiz.date_posted }}
+                        </b></small></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-12 col-md-10 mb-3 mx-auto mt-3">
+        {% for question in questions %}
+            <div class="card bg-dark text-light mb-1">
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h4 class="card-title text-info">
+                            {{ question.title }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
