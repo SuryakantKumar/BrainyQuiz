@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
-from django.http import Http404
-from django.db.models import Prefetch
+from django.http import Http404, HttpResponse
 
 from .models import Quiz, Category, Question, Option, QuestionWiseQuizScore, QuizWiseScore, Scoreboard
 from .forms import CreateQuizModelForm, CreateQuestionModelForm, CreateOptionModelForm
+from .tasks import download_contents
 
 
 def category_list_view(request):
@@ -223,3 +223,9 @@ def quiz_result_view(request, quiz_id):
                "question_wise_score": question_wise_score,
                "options": options}
     return render(request, template, context)
+
+
+@login_required
+def download_content_view(request):
+    formatted_json_data = download_contents(request)
+    return HttpResponse(formatted_json_data)

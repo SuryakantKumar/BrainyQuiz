@@ -15,4 +15,5 @@ urlpatterns = [
          name='option-create'),
     path('scoreboard/', views.score_board, name='scoreboard'),
     path('quiz/<int:quiz_id>/result/', views.quiz_result_view, name='quiz-result'),
+    path('profile/download_content', views.download_content_view, name='download-content'),
 ]

@@ -15,5 +15,6 @@ def search(request):
 
     template = 'searches/search.html'
     context = {'quizzes': quizzes,
-               'questions': questions}
+               'questions': questions,
+               'query': q}
     return render(request, template, context)
