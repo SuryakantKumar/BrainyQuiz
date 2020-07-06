@@ -24,7 +24,7 @@ SECRET_KEY = "ae9280a5db198a2ca64c61c889836223071fc1d8a33e67f0"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['52.66.195.254', '127.0.0.1', 'brainyquiz.herokuapp.com']
+ALLOWED_HOSTS = ['13.126.74.64', '127.0.0.1', 'brainyquiz.herokuapp.com']
 
 # Application definition
 
