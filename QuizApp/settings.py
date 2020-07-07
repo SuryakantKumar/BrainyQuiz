@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "ae9280a5db198a2ca64c61c889836223071fc1d8a33e67f0"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['13.126.74.64', '127.0.0.1', 'brainyquiz.herokuapp.com']
 
@@ -34,8 +34,8 @@ INSTALLED_APPS = [
     'quiz',
     'users',
     'crispy_forms',
-    'searches',
-    'django_elasticsearch_dsl',
+    # 'searches',
+    # 'django_elasticsearch_dsl',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,11 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'localhost:9200'
-    },
-}
+# ELASTICSEARCH_DSL = {
+#     'default': {
+#         'hosts': 'localhost:9200'
+#     },
+# }
 
 INTERNAL_IPS = [
     '127.0.0.1',
