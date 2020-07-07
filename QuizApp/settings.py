@@ -34,8 +34,8 @@ INSTALLED_APPS = [
     'quiz',
     'users',
     'crispy_forms',
-    'searches',
-    'django_elasticsearch_dsl',
+    #'searches',
+    #'django_elasticsearch_dsl',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,11 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'localhost:9200'
-    },
-}
+#ELASTICSEARCH_DSL = {
+#    'default': {
+#        'hosts': 'localhost:9200'
+#    },
+#}
 
 INTERNAL_IPS = [
     '127.0.0.1',
