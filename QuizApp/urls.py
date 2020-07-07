@@ -26,8 +26,6 @@ from .views import (
 
 from users import views as user_views
 
-#from searches import views as search_views
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('about/', about),
@@ -36,8 +34,6 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
-    #path('search/', search_views.search, name='search'),
-
 
     path('', include('quiz.urls'))
 ]
