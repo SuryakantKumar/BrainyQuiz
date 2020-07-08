@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+<title>BrainyQuiz - Login</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="col-12 col-md-4 mb-3 mx-auto mt-3">
+    <form method="POST">
+        {% csrf_token %}
+
+        <fieldset class="form-group ">
+            <legend class="border-bottom mb-4 bg-dark text-light text-center">Log In</legend>
+            {{ form|crispy }}
+        </fieldset>
+
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Login</button>
+        </div>
+    </form>
+
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Don't have an Account ? <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
+        </small>
+    </div>
+</div>
+{% endblock %}

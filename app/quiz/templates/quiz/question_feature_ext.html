@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    <title>Quiz - {{ related_quiz }}</title>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-12 col-md-10 mb-3 mx-auto mt-3">
+        <div class="card border-success mb-3">
+            <div class="card-body text-success">
+                <h4 class="card-title text-info">
+                    Quiz : {{ related_quiz.title }}
+                </h4>
+                <p class="card-text">
+                    {{ related_quiz.description|linebreaks }}
+                </p>
+                <p><small class="text-primary"><b>
+                    Author : {{ related_quiz.author.first_name }} {{ related_quiz.author.last_name }}
+                </b></small></p>
+                <p><small class="text-danger"><b>
+                    Difficulty : {{ related_quiz.get_difficulty_display }}
+                </b></small></p>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-warning mb-3">
+            <a style="text-decoration: None;" href="{% url 'question-create' related_quiz.id %}">Add Question</a>
+        </button>
+
+        <div>
+            {% for question in question_list %}
+                <div class="card bg-dark text-light mb-1">
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <h4 class="card-title text-info">
+                                <h3 class="card-text mb-4 text-success">
+                                    {{ question.title }}
+                                </h3>
+                                {% for option in option_list %}
+                                    {% if question.id == option.question.id %}
+                                        <div>
+                                            <input type="radio" class="mr-2" disabled>
+                                            <label>{{ option }}</label>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+
+                                <div>
+                                    <a class="card-text ml-4 text-primary"
+                                       href="{% url 'option-create' related_quiz.id question.id %}">
+                                        <h5>Add Option</h5>
+                                    </a>
+                                </div>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

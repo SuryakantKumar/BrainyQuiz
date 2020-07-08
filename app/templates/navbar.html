@@ -1,0 +1,49 @@
+<nav style="font-family: Comic Sans MS, cursive, sans-serif;" class="navbar navbar-dark bg-dark navbar-expand-lg">
+    <a class="navbar-brand text-success mr-4" href="/">
+        <h2>Brainy Quiz</h2>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link mr-2 pb-0 text-warning" href="{% url 'category-list' %}">
+                    <h5>Category</h5>
+                </a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link mr-2 pb-0 text-info" href="{% url 'scoreboard' %}">
+                    <h5>ScoreBoard</h5>
+                </a>
+            </li>
+        </ul>
+
+
+        <div class="navbar-nav mr-4">
+            {% if user.is_authenticated %}
+            <a class="nav-item nav-link active text-info pb-0 mr-2" href="{% url 'quiz-create' %}">
+                <h5>Create
+                    Quiz</h5>
+            </a>
+            <a class="nav-item nav-link active text-warning pb-0 mr-2" href="{% url 'profile' %}">
+                <h5>{{ user.first_name }}</h5>
+            </a>
+            <a class="nav-item nav-link active text-danger pb-0 mr-2" href="{% url 'logout' %}">
+                <h5>Logout</h5>
+            </a>
+            {% else %}
+            <a class="nav-item nav-link active text-success pb-0 mr-2" href="{% url 'login' %}">
+                <h5>Login</h5>
+            </a>
+            <a class="nav-item nav-link active text-info pb-0 mr-2" href="{% url 'register' %}">
+                <h5>Register</h5>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
