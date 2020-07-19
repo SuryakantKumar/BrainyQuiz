@@ -11,7 +11,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'QuizApp.settings')
 app = Celery('QuizApp')
 
 # Using project settings file as our configuration file so that all configuration live in one place
-app.config_from_object('django.conf:settings')
+app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Auto discover tasks.py file in every application for this project
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
